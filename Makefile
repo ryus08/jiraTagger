@@ -2,7 +2,7 @@
 
 build:
 	export GO111MODULE=on
-	GOARCH=amd64 GOOS=linux go build -gcflags="-N -l" -o bin/receive receive/main.go
+	GOARCH=amd64 GOOS=linux go build -gcflags="-N -l" -o bin/handler handler/main.go
 	if [ -a .serverless/jiraTagger.zip ]; then rm -rf .serverless/jiraTagger.zip; fi;
 	mkdir -p .serverless
 	zip .serverless/jiraTagger.zip bin/*

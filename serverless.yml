@@ -21,7 +21,7 @@ plugins:
 
 functions:
   receive:
-    handler: bin/receive
+    handler: bin/handler
     events:
       - http:
           path: receive
