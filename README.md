@@ -5,9 +5,18 @@
 
 ### Start up the API Locally
 
+
 ```bash
     $ make api
 ```
+
+Or to stand up with Serverless:
+
+```bash
+    $ make slsapi
+```
+
+
 ### Unit Test 
 
 ```bash

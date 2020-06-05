@@ -1,6 +1,15 @@
 {
   "version": "0.2.0",
   "configurations": [
+		{
+			"name": "Launch",
+			"type": "go",
+			"request": "launch",
+			"mode": "auto",
+			"program": "${workspaceRoot}/server/main.go",
+			"env": {},
+			"args": []
+		},
     {
       // Didn't work with SAM, doesn't work now with SLS (but would need to figure out how to expose the debugger port with SLS as well)
       "name": "Connect to Lambda container",
