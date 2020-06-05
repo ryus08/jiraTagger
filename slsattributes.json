@@ -1,0 +1,5 @@
+{
+  "language": "golang",
+  "framework": "Serverless",
+  "projectName": "jiraTagger"
+}
