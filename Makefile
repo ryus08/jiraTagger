@@ -1,10 +1,8 @@
 .PHONY: build clean deploy gomodgen
 
-build: gomodgen
+build:
 	export GO111MODULE=on
 	GOARCH=amd64 GOOS=linux go build -gcflags="-N -l" -o bin/receive receive/main.go
-### yeoman hook ###
-## Don't touch this comment, the subgenerator needs it'
 	if [ -a .serverless/jiraTagger.zip ]; then rm -rf .serverless/jiraTagger.zip; fi;
 	mkdir -p .serverless
 	zip .serverless/jiraTagger.zip bin/*
@@ -21,8 +19,8 @@ deploy: clean build
 sam: build
 	sls sam export --output template.yaml
 
-local-api: sam
-	./scripts/samapi.sh '' '$(network)'
+local-api:
+	sls offline --useDocker
 
 api: local-api
 
@@ -44,5 +42,5 @@ sam-debug: sam access
 undeploy:
 	sls undeploy --verbosed
 
-test: gomodgen
+test:
 	go test ./... -cover -count 1

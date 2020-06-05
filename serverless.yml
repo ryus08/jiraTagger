@@ -21,7 +21,7 @@ provider:
     squad: Test
 
 plugins:
-  - serverless-sam
+ - serverless-offline
 
 functions:
   receive:
@@ -35,10 +35,3 @@ functions:
           path: receive
           method: get
           cors: true
-### yeoman hook ###
-## Don't touch this comment, the subgenerator needs it'
-
-## Uncomment for dev purpose only.
-## Re-comment it before deploy !!
-#plugins:
-#  - serverless-offline

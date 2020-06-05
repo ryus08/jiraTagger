@@ -22,10 +22,11 @@
   "author": " <>",
   "dependencies": {},
   "devDependencies": {
-    "serverless-sam": "^0.2.0",
+    "@endemolshinegroup/serverless-dynamodb-autoscaler": "^1.0.0",
     "serverless-domain-manager": "^2.6.9",
+    "serverless-offline": "^6.0.0-alpha.67",
     "serverless-plugin-canary-deployments": "^0.4.4",
-    "@endemolshinegroup/serverless-dynamodb-autoscaler": "^1.0.0"
+    "serverless-sam": "^0.2.0"
   },
   "directories": {
     "test": "test"

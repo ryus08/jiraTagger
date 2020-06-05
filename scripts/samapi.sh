@@ -2,7 +2,7 @@
 if [[ -z "${1}" ]]; then
     echo "Running local API!"
     if [[ -z "${2}" ]]; then
-        sam.cmd local start-api --host 192.168.0.20
+        sam.cmd local start-api --host 127.0.0.1
     else
         sam.cmd local start-api --docker-network ${2}
     fi
