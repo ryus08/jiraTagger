@@ -16,6 +16,6 @@
 .DS_Store
 .serverless
 vendor
-bin/**
+bin
 node_modules
 scripts/linux

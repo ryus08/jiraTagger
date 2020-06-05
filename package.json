@@ -2,33 +2,9 @@
   "name": "jiraTagger",
   "version": "",
   "description": "",
-  "scripts": {
-    "test": "dotbox test",
-    "remote-test": "dotbox remote-test",
-    "lint": "dotbox lint",
-    "build": "dotbox build",
-    "local": "trap 'dotbox restore-symlink > /dev/null' 2 3 && dotbox offline",
-    "deploy": "dotbox deploy",
-    "remote-deploy": "dotbox remote-deploy",
-    "undeploy": "dotbox undeploy"
-  },
-  "keywords": [
-    "boilerplate",
-    "serverless",
-    "lambda",
-    "node",
-    "js"
-  ],
-  "author": " <>",
+  "author": "ryus08",
   "dependencies": {},
   "devDependencies": {
-    "@endemolshinegroup/serverless-dynamodb-autoscaler": "^1.0.0",
-    "serverless-domain-manager": "^2.6.9",
-    "serverless-offline": "^6.0.0-alpha.67",
-    "serverless-plugin-canary-deployments": "^0.4.4",
-    "serverless-sam": "^0.2.0"
-  },
-  "directories": {
-    "test": "test"
+    "serverless-offline": "^6.0.0-alpha.67"
   }
 }

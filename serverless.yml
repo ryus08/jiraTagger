@@ -8,17 +8,13 @@ package:
  include:
    - ./bin/**
 
-custom: ${file(./config.json)}
-
 provider:
   name: aws
   cfLogs: true
   runtime: go1.x
-  stage: ${opt:stage, self:custom.env}
+  stage: ${opt:stage, 'dev'}
   region: us-east-1
   memorySize: 128
-  stackTags:
-    squad: Test
 
 plugins:
  - serverless-offline

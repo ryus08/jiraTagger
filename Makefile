@@ -7,37 +7,14 @@ build:
 	mkdir -p .serverless
 	zip .serverless/jiraTagger.zip bin/*
 
-access:
-	chmod -R u+x ./scripts/
-
 clean:
 	rm -rf ./bin ./vendor Gopkg.lock
 
 deploy: clean build
-	sls deploy --verbosed
+	sls deploy --verbosed 
 
-sam: build
-	sls sam export --output template.yaml
-
-local-api:
-	sls offline --useDocker
-
-api: local-api
-
-debug-api: sam
-	./scripts/samapi.sh 'debug' '$(network)'
-
-local-invoke: clean build access
-	./scripts/localinvoke.sh '$(func)' '$(event)' '$(network)'
-
-sam-invoke: sam
-	./scripts/samlocal.sh '$(func)' '$(event)' '$(network)' 'export'
-
-debug: sam access
-	./scripts/samdebug.sh '$(func)' '$(event)' '$(network)' 'export'
-
-sam-debug: sam access
-	./scripts/samdebug.sh '$(func)' '$(event)' '$(network)' 'export'
+api: clean build
+	sls offline --useDocker --host 192.168.0.15
 
 undeploy:
 	sls undeploy --verbosed
