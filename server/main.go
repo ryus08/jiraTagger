@@ -1,24 +1,22 @@
 package main
 
 import (
-	"log"
-	"net/http"
-
-	"github.com/gorilla/mux"
+	"github.com/gin-gonic/gin"
 )
 
-type server struct{}
+type ResponseBody struct {
+	Message string
+}
 
-func receive(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusCreated)
-	w.Write([]byte(`{"message": "post called"}`))
+func receive(c *gin.Context) {
+	response := &ResponseBody{Message: "receive called"}
+	c.JSON(200, response)
 }
 
 func main() {
-	r := mux.NewRouter()
-	api := r.PathPrefix("/dev/receive").Subrouter()
-	api.HandleFunc("", receive).Methods(http.MethodGet)
-	api.HandleFunc("", receive).Methods(http.MethodPost)
-	log.Fatal(http.ListenAndServe(":8080", r))
+	router := gin.Default()
+	router.GET("/dev/receive", receive)
+	router.POST("/dev/receive", receive)
+
+	router.Run(":8080")
 }
