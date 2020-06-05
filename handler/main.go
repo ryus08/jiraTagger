@@ -16,17 +16,21 @@ import (
 func Handler(ctx context.Context, req *events.APIGatewayProxyRequest) (*apigw.APIResponse, error) {
 	receive := &controller.Receive{}
 
-	//Unmarshaling request body
 	requestBody := &controller.RequestBody{}
-	err := json.Unmarshal([]byte(req.Body), requestBody)
 
-	if err != nil {
-		return apigw.Err(err)
+	if req.HTTPMethod == http.MethodGet {
+		requestBody.Content = "Hello!"
+
+	} else {
+		fmt.Printf("%s\n", req.Body)
+		//Unmarshaling request body
+		err := json.Unmarshal([]byte(req.Body), requestBody)
+
+		if err != nil {
+			return apigw.Err(err)
+		}
 	}
 
-	fmt.Printf("%s\n", req.Body)
-
-	//echo back the same request payload with success message
 	response := receive.Handler(requestBody)
 
 	return apigw.ResponseWithHeaders(response, http.StatusOK, apigw.Headers{

@@ -11,10 +11,15 @@ func receive(c *gin.Context) {
 	receive := &controller.Receive{}
 
 	var requestBody controller.RequestBody
-	err := c.ShouldBindJSON(&requestBody)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
+
+	if c.Request.Method == "GET" {
+		requestBody = controller.RequestBody{Content: "Hello!"}
+	} else {
+		err := c.ShouldBindJSON(&requestBody)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
 	}
 
 	response := receive.Handler(&requestBody)
