@@ -1,7 +1,7 @@
 .PHONY: build clean deploy
 
 test: build
-	go test ./... -cover -count 1
+	go test ./... -cover -count 1 -coverprofile=coverage.out
 
 build:
 	GOARCH=amd64 GOOS=linux go build -gcflags="-N -l" -o bin/handler handler/handler.go

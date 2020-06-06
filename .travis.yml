@@ -2,3 +2,6 @@ language: go
 
 go:
 - 1.14
+
+after_script:
+  goveralls -service=travis-ci
