@@ -3,5 +3,7 @@ language: go
 go:
 - 1.14
 
+before_install:
+  - go get github.com/mattn/goveralls
 after_script:
   goveralls -service=travis-ci

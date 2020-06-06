@@ -1,4 +1,4 @@
-[![Coverage Status](https://coveralls.io/repos/github/ryus08/jiraTagger/badge.svg?branch=master)](https://coveralls.io/github/ryus08/jiraTagger?branch=master)
+[![Build Status](https://travis-ci.com/ryus08/jiraTagger.svg?branch=master)](https://travis-ci.com/ryus08/jiraTagger) [![Coverage Status](https://coveralls.io/repos/github/ryus08/jiraTagger/badge.svg?branch=master)](https://coveralls.io/github/ryus08/jiraTagger?branch=master)
 
 # jiraTagger
 (modeled from [instructions by Muhammad Soliman](https://medium.com/hackernoon/go-serverless-offline-wait-go-yes-it-is-really-simplified-1dea663b97d5)
