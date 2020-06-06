@@ -17,6 +17,7 @@
 .serverless
 vendor
 bin
+devbin
 node_modules
 scripts/linux
 __debug_bin
