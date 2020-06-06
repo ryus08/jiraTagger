@@ -1,17 +1,17 @@
-.PHONY: build clean deploy gomodgen
+.PHONY: build clean deploy
+
+test: build
+	go test ./... -cover -count 1
 
 build:
-	export GO111MODULE=on
 	GOARCH=amd64 GOOS=linux go build -gcflags="-N -l" -o bin/handler handler/handler.go
+	GOARCH=amd64 GOOS=windows go build -gcflags="-N -l" -o bin/server.exe server/server.go
+	GOARCH=amd64 GOOS=linux go build -gcflags="-N -l" -o bin/server server/server.go
+
 	if [ -a .serverless/jiraTagger.zip ]; then rm -rf .serverless/jiraTagger.zip; fi;
 	mkdir -p .serverless
 	zip .serverless/jiraTagger.zip bin/*
 	
-buildServer:
-	export GO111MODULE=on
-	GOARCH=amd64 GOOS=windows go build -gcflags="-N -l" -o bin/server.exe server/server.go
-	GOARCH=amd64 GOOS=linux go build -gcflags="-N -l" -o bin/server server/server.go
-
 clean:
 	rm -rf ./bin ./vendor Gopkg.lock
 
@@ -26,6 +26,3 @@ api: clean buildServer
 
 undeploy:
 	sls undeploy --verbosed
-
-test:
-	go test ./... -cover -count 1
