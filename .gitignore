@@ -19,3 +19,4 @@ vendor
 bin
 node_modules
 scripts/linux
+__debug_bin
