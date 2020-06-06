@@ -2,15 +2,15 @@
 
 build:
 	export GO111MODULE=on
-	GOARCH=amd64 GOOS=linux go build -gcflags="-N -l" -o bin/handler handler/main.go
+	GOARCH=amd64 GOOS=linux go build -gcflags="-N -l" -o bin/handler handler/handler.go
 	if [ -a .serverless/jiraTagger.zip ]; then rm -rf .serverless/jiraTagger.zip; fi;
 	mkdir -p .serverless
 	zip .serverless/jiraTagger.zip bin/*
 	
 buildServer:
 	export GO111MODULE=on
-	GOARCH=amd64 GOOS=windows go build -gcflags="-N -l" -o bin/server.exe server/main.go
-	GOARCH=amd64 GOOS=linux go build -gcflags="-N -l" -o bin/server server/main.go
+	GOARCH=amd64 GOOS=windows go build -gcflags="-N -l" -o bin/server.exe server/server.go
+	GOARCH=amd64 GOOS=linux go build -gcflags="-N -l" -o bin/server server/server.go
 
 clean:
 	rm -rf ./bin ./vendor Gopkg.lock
