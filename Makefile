@@ -9,7 +9,8 @@ build:
 	
 buildServer:
 	export GO111MODULE=on
-	GOARCH=amd64 GOOS=windows go build -gcflags="-N -l" -o bin/server server/main.go
+	GOARCH=amd64 GOOS=windows go build -gcflags="-N -l" -o bin/server.exe server/main.go
+	GOARCH=amd64 GOOS=linux go build -gcflags="-N -l" -o bin/server server/main.go
 
 clean:
 	rm -rf ./bin ./vendor Gopkg.lock
