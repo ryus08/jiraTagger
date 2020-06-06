@@ -6,5 +6,6 @@ require (
 	github.com/aws/aws-lambda-go v1.6.0
 	github.com/gin-contrib/cors v1.3.1
 	github.com/gin-gonic/gin v1.6.3
+	github.com/slack-go/slack v0.6.5 // indirect
 	github.com/smartystreets/goconvey v1.6.4
 )
