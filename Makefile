@@ -21,7 +21,7 @@ deploy: clean build
 slsapi: clean build
 	sls offline --useDocker --host 192.168.0.15
 
-api: clean buildServer
+api: clean build
 	./devbin/server
 
 undeploy:

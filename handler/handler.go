@@ -2,8 +2,6 @@ package main
 
 import (
 	"context"
-	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -16,24 +14,30 @@ import (
 func Handler(ctx context.Context, req *events.APIGatewayProxyRequest) (*apigw.APIResponse, error) {
 	receive := &controller.Receive{}
 
-	requestBody := &controller.RequestBody{}
-
 	if req.HTTPMethod == http.MethodGet {
-		requestBody.Content = "Hello!"
-
-	} else {
-		fmt.Printf("%s\n", req.Body)
-		//Unmarshaling request body
-		err := json.Unmarshal([]byte(req.Body), requestBody)
-
-		if err != nil {
-			return apigw.Err(err)
-		}
+		req.Body = "{Content: \"Hello!\"}"
 	}
 
-	response := receive.Handler(requestBody)
+	doubleHeaders := http.Header{}
 
-	return apigw.ResponseWithHeaders(response, http.StatusOK, apigw.Headers{
+	for index, element := range req.Headers {
+		doubleHeaders[index] = []string{element}
+	}
+
+	e := receive.Authorize(doubleHeaders, &req.Body)
+	var response interface{}
+	var statusCode int
+	if e == nil {
+		response, e = receive.Handler(&req.Body)
+		statusCode = http.StatusOK
+	}
+
+	if e != nil {
+		response = e
+		statusCode = http.StatusInternalServerError
+	}
+
+	return apigw.ResponseWithHeaders(response, statusCode, apigw.Headers{
 		"Content-Type": "application/json",
 	})
 }

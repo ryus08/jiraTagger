@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"net/http"
 
 	"github.com/gin-contrib/cors"
@@ -10,21 +11,29 @@ import (
 
 func receive(c *gin.Context) {
 	receive := &controller.Receive{}
-
-	var requestBody controller.RequestBody
-
+	var body string
 	if c.Request.Method == "GET" {
-		requestBody = controller.RequestBody{Content: "Hello!"}
+		body = "{Content: \"Hello!\"}"
 	} else {
-		err := c.ShouldBindJSON(&requestBody)
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-			return
-		}
+		buf := new(bytes.Buffer)
+		buf.ReadFrom(c.Request.Body)
+		body = buf.String()
 	}
 
-	response := receive.Handler(&requestBody)
-	c.JSON(200, response)
+	e := receive.Authorize(c.Request.Header, &body)
+	var response interface{}
+	var statusCode int
+	if e == nil {
+		response, e = receive.Handler(&body)
+		statusCode = http.StatusOK
+	}
+
+	if e != nil {
+		response = e
+		statusCode = http.StatusInternalServerError
+	}
+
+	c.JSON(statusCode, response)
 }
 
 func main() {

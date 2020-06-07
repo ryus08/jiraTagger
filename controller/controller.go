@@ -1,22 +1,34 @@
 package controller
 
-type RequestBody struct {
-	Content   string `json:"content"`
-	Key       string `json:"key"`
-	Token     string `json:"token"`
-	Challenge string `json:"challenge"`
-}
+import (
+	"encoding/json"
+	"net/http"
 
-type ResponseBody struct {
-	Message string
-
-	*RequestBody
-}
+	"github.com/slack-go/slack"
+	"github.com/slack-go/slack/slackevents"
+)
 
 type Receive struct {
 }
 
-func (receive *Receive) Handler(req *RequestBody) *ResponseBody {
-	response := &ResponseBody{Message: "success", RequestBody: req}
-	return response
+func (receive *Receive) Authorize(header http.Header, body *string) error {
+	sv, err := slack.NewSecretsVerifier(header, "SigningSecret")
+	if err != nil {
+		return err
+	}
+	sv.Write([]byte(*body))
+	err = sv.Ensure()
+	return err
+}
+
+func (receive *Receive) Handler(body *string) (slackevents.EventsAPIEvent, error) {
+	eventsAPIEvent, e := slackevents.ParseEvent(
+		json.RawMessage([]byte(*body)),
+		slackevents.OptionNoVerifyToken())
+
+	// TODO:
+	// Config pass in
+	// Handle Challenge again
+
+	return eventsAPIEvent, e
 }
