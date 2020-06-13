@@ -8,4 +8,6 @@ require (
 	github.com/gin-gonic/gin v1.6.3
 	github.com/slack-go/slack v0.6.5
 	github.com/smartystreets/goconvey v1.6.4
+	github.com/spf13/viper v1.7.0
+	go.uber.org/dig v1.9.0
 )

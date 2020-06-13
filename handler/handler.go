@@ -24,6 +24,7 @@ func Handler(ctx context.Context, req *events.APIGatewayProxyRequest) (*apigw.AP
 		doubleHeaders[index] = []string{element}
 	}
 
+	// TODO: Make this a 403
 	e := receive.Authorize(doubleHeaders, &req.Body)
 	var response interface{}
 	var statusCode int
