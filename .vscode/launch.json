@@ -6,7 +6,7 @@
 			"type": "go",
 			"request": "launch",
 			"mode": "auto",
-			"program": "${workspaceRoot}/server/server.go",
+			"program": "${workspaceRoot}/server",
 			"env": {},
 			"args": []
 		},

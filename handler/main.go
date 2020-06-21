@@ -28,14 +28,17 @@ func Handler(ctx context.Context, req *events.APIGatewayProxyRequest) (*apigw.AP
 	e := receive.Authorize(doubleHeaders, &req.Body)
 	var response interface{}
 	var statusCode int
-	if e == nil {
+	if e != nil {
+		response = "Unauthorized"
+		statusCode = http.StatusUnauthorized
+	} else {
 		response, e = receive.Handler(&req.Body)
 		statusCode = http.StatusOK
-	}
 
-	if e != nil {
-		response = e
-		statusCode = http.StatusInternalServerError
+		if e != nil {
+			response = e
+			statusCode = http.StatusInternalServerError
+		}
 	}
 
 	return apigw.ResponseWithHeaders(response, statusCode, apigw.Headers{

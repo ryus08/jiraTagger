@@ -1,20 +1,21 @@
 package main
 
 import (
-	"encoding/json"
-	"github.com/aws/aws-lambda-go/events"
-	"testing"
 	"context"
+	"encoding/json"
 	"io/ioutil"
+	"testing"
+
+	"github.com/aws/aws-lambda-go/events"
 	. "github.com/smartystreets/goconvey/convey"
 )
 
 func TestHandler(t *testing.T) {
-    t.Parallel()
+	t.Parallel()
 
-    Convey("Start Testing!", t, func() {
+	Convey("Start Testing!", t, func() {
 
-		Convey("Validating Lambda!", func() {
+		Convey("Validating Lambda Authorizes!", func() {
 			raw, err := ioutil.ReadFile("./event.json")
 
 			So(raw, ShouldNotBeNil)
@@ -29,7 +30,7 @@ func TestHandler(t *testing.T) {
 
 			So(err, ShouldBeNil)
 			So(resp, ShouldNotBeNil)
-			So(resp.StatusCode,ShouldEqual, 200)
+			So(resp.StatusCode, ShouldEqual, 401)
 		})
 
 	})

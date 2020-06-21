@@ -4,9 +4,9 @@ test: build
 	go test ./... -cover -count 1 -coverprofile=coverage.out
 
 build:
-	GOARCH=amd64 GOOS=linux go build -gcflags="-N -l" -o bin/handler handler/handler.go
-	GOARCH=amd64 GOOS=windows go build -gcflags="-N -l" -o devbin/server.exe server/server.go
-	GOARCH=amd64 GOOS=linux go build -gcflags="-N -l" -o devbin/server server/server.go
+	GOARCH=amd64 GOOS=linux go build -gcflags="-N -l" -o bin/handler ./handler
+	GOARCH=amd64 GOOS=windows go build -gcflags="-N -l" -o devbin/server.exe ./server
+	GOARCH=amd64 GOOS=linux go build -gcflags="-N -l" -o devbin/server ./server
 
 	if [ -a .serverless/jiraTagger.zip ]; then rm -rf .serverless/jiraTagger.zip; fi;
 	mkdir -p .serverless
