@@ -12,7 +12,7 @@ import (
 
 // Handler is our lambda handler invoked by the `lambda.Start` function call
 func Handler(ctx context.Context, req *events.APIGatewayProxyRequest) (*apigw.APIResponse, error) {
-	receive := &controller.Receive{}
+	receive := &controller.TaggerController{}
 
 	if req.HTTPMethod == http.MethodGet {
 		req.Body = "{Content: \"Hello!\"}"
@@ -32,7 +32,7 @@ func Handler(ctx context.Context, req *events.APIGatewayProxyRequest) (*apigw.AP
 		response = "Unauthorized"
 		statusCode = http.StatusUnauthorized
 	} else {
-		response, e = receive.Handler(&req.Body)
+		response, e = receive.HandleRequest(&req.Body)
 		statusCode = http.StatusOK
 
 		if e != nil {

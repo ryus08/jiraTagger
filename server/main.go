@@ -1,9 +1,6 @@
 package main
 
 import (
-	"bytes"
-	"net/http"
-
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/ryus08/jiraTagger/controller"
@@ -11,30 +8,13 @@ import (
 	"github.com/ryus08/jiraTagger/module"
 )
 
-type MyController struct {
+type ControllerWrapper struct {
+	TaggerController *controller.TaggerController
 }
 
-func (myController *MyController) Handle(c *gin.Context) {
-	receive := &controller.Receive{}
-	var body string
-	if c.Request.Method == "GET" {
-		body = "{Content: \"Hello!\"}"
-	} else {
-		buf := new(bytes.Buffer)
-		buf.ReadFrom(c.Request.Body)
-		body = buf.String()
-	}
-
-	e := receive.Authorize(c.Request.Header, &body)
-	var response interface{}
-	var statusCode int
-	if e != nil {
-		response = e
-		statusCode = http.StatusUnauthorized
-	} else {
-		response, e = receive.Handler(&body)
-		statusCode = http.StatusOK
-	}
+// TODO: probably push the gin stuff right into the contextual handler
+func (controllerWrapper *ControllerWrapper) Handle(c *gin.Context) {
+	statusCode, response := controllerWrapper.TaggerController.Handle((c.Request))
 
 	c.JSON(statusCode, response)
 }
@@ -48,10 +28,12 @@ func main() {
 	corsConfig.AllowOrigins = []string{"http://localhost"}
 	router.Use(cors.New(corsConfig))
 
-	router.GET("/dev/receive", contextualHandler.GetContextualHandler(
-		func(config *module.Config) digr.Controller { return &MyController{} }))
-	router.POST("/dev/receive", contextualHandler.GetContextualHandler(
-		func(config *module.Config) digr.Controller { return &MyController{} }))
+	controllerBuilder := func(taggerController *controller.TaggerController) digr.Controller {
+		return &ControllerWrapper{TaggerController: taggerController}
+	}
+
+	router.GET("/dev/receive", contextualHandler.GetContextualHandler(controllerBuilder))
+	router.POST("/dev/receive", contextualHandler.GetContextualHandler(controllerBuilder))
 
 	router.Run(":3000")
 }
